@@ -35,48 +35,59 @@ class _Pantalla_HomeState extends State<Pantalla_Home> {
           ),
         ],
       ),
-      body: Padding(
-        padding: EdgeInsets.all(10),
-        child: StreamBuilder(
-          stream: FirestoreService().Jugadores(),
-          builder: (context, AsyncSnapshot<QuerySnapshot> snapshot){
-          if(!snapshot.hasData || snapshot.connectionState == ConnectionState.waiting){
-            //esperando datos
-            return Center(child: CircularProgressIndicator());
-          }else{
-            //datos llegaron, mostrar en pagina
-            return ListView.separated(
-              separatorBuilder: (context, index) => Divider(),
-              itemCount: snapshot.data!.docs.length,
-              itemBuilder: (context, index){
-                var jugadores = snapshot.data!.docs[index];
-                return Slidable(
-                  endActionPane: ActionPane(
-                    motion: ScrollMotion(),
-                    children: [
-                      SlidableAction(
-                        icon: MdiIcons.trashCan,
-                        label: 'Borrar',
-                        backgroundColor: Colors.red,
-                        onPressed: (context) {
-                          _mostrarDialogoConfirmacion(jugadores.id);
+      body: Container(
+        decoration: BoxDecoration(image: DecorationImage(image: AssetImage('assets/uefa.jpg'), fit: BoxFit.cover)),
+        child: Padding(
+          
+          padding: EdgeInsets.all(10),
+          child: StreamBuilder(
+            stream: FirestoreService().Jugadores(),
+            builder: (context, AsyncSnapshot<QuerySnapshot> snapshot){
+            if(!snapshot.hasData || snapshot.connectionState == ConnectionState.waiting){
+              //esperando datos
+              return Center(child: CircularProgressIndicator());
+            }else{
+              //datos llegaron, mostrar en pagina
+              return ListView.separated(
+                separatorBuilder: (context, index) => Divider(),
+                itemCount: snapshot.data!.docs.length,
+                itemBuilder: (context, index){
+                  var jugadores = snapshot.data!.docs[index];
+                  return Slidable(
+                    endActionPane: ActionPane(
+                      motion: ScrollMotion(),
+                      children: [
+                        SlidableAction(
+                          icon: MdiIcons.trashCan,
+                          label: 'Borrar',
+                          backgroundColor: Colors.red,
+                          onPressed: (context) {
+                            _mostrarDialogoConfirmacion(jugadores.id);
+                          },
+                        )
+                      ],
+                    ),
+                    child: Container(
+                      decoration: BoxDecoration(
+                      color: Color(0xFF051E34).withOpacity(0.9), 
+                      borderRadius: BorderRadius.circular(8.0), 
+                      ),
+                      margin: EdgeInsets.symmetric(vertical: 2.0, horizontal: 8.0), 
+                      child: ListTile(
+                        leading: Icon(MdiIcons.account, color: Colors.white,),
+                        title: Text('${jugadores['Nombre']} ${jugadores['Apellido']} (${jugadores['Edad']})', style: TextStyle(color: Colors.white),),
+                        subtitle: Text('${jugadores['Equipo']}', style: TextStyle(color: Colors.white)),
+                        onTap: (){
+                          mostrarInformacionJugador(context, jugadores);
                         },
-                      )
-                    ],
-                  ),
-                  child: ListTile(
-                    leading: Icon(MdiIcons.account),
-                    title: Text('${jugadores['Nombre']} ${jugadores['Apellido']} (${jugadores['Edad']})'),
-                    subtitle: Text('${jugadores['Equipo']}'),
-                    onTap: (){
-                      mostrarInformacionJugador(context, jugadores);
-                    },
-                  ),
-                );
-              },
-            );
-          }
-        },
+                      ),
+                    ),
+                  );
+                },
+              );
+            }
+          },
+          ),
         ),
       ),
       floatingActionButton:  FloatingActionButton(
@@ -115,7 +126,7 @@ void mostrarInformacionJugador(BuildContext context, QueryDocumentSnapshot<Objec
             },
           ),
           TextButton(
-            child: Text('Eliminar'),
+            child: Text('Eliminar', style: TextStyle(color: Colors.red),),
             onPressed: () {
               // Lógica para eliminar el jugador
               FirestoreService().jugadorBorrar(jugadorId);

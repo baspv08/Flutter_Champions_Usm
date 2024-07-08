@@ -92,8 +92,9 @@ class _Pantalla_Agregar_JugadorState extends State<Pantalla_Agregar_Jugador> {
                 } else {
                   var Equipo = snapshot.data!.docs;
                   return DropdownButtonFormField<String>(
-                    value:Equipos == '' ? Equipo[0]['Nombre'] : Equipos,
+                    value: Equipos.isEmpty ? null : Equipos,
                     decoration: InputDecoration(labelText: 'Equipo'),
+                    hint: Text('Seleccione un equipo'),
                     items: Equipo.map<DropdownMenuItem<String>>((Equipos) {
                       return DropdownMenuItem<String>(
                         child: Text(Equipos['Nombre']),
