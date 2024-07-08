@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "136746170671",
+    "project_id": "champions-usm",
+    "storage_bucket": "champions-usm.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:136746170671:android:01cb8dcbf0e35a61ab49da",
+        "android_client_info": {
+          "package_name": "cl.champions.flutter_champions"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCLBOi4WbYyLq0EommhEe-hbbPaui4GM50"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
